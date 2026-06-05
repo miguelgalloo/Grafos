@@ -59,7 +59,7 @@ public class Grafo {
     public void agregarVertice() {
 
     String entrada = JOptionPane.showInputDialog(
-            "Ingrese los vértices separados por guion (-):"
+            "Ingrese los vertices separados por guion (-):"
     );
 
     if (entrada == null || entrada.trim().isEmpty()) {
@@ -93,7 +93,8 @@ public class Grafo {
 
     String entrada = JOptionPane.showInputDialog(
             null,
-            "Formato: A-B-5,B-C-3,C-D-2"
+            "Formato: Origen-Destino-Peso\n "
+             + "Ejemplo: A-B-5,B-C-3,C-D-2"
     );
 
     if (entrada == null || entrada.trim().isEmpty()) {
@@ -137,9 +138,7 @@ public class Grafo {
 
         matrizAdyacencia[i][j] = peso;
 
-        if (!dirigido) {
-            matrizAdyacencia[j][i] = peso;
-        }
+        
 
         agregadas++;
     }
@@ -170,11 +169,9 @@ public class Grafo {
     }
 
     JOptionPane.showMessageDialog(
-            null,
-            sb.toString(),
-            "VERTICES",
-            JOptionPane.INFORMATION_MESSAGE
-    );
+    null,
+    sb.toString()
+);
 }
 
     public void mostrarListaAdyacencia() {
@@ -214,11 +211,9 @@ public class Grafo {
     }
 
     JOptionPane.showMessageDialog(
-            null,
-            sb.toString(),
-            "Lista de Adyacencia",
-            JOptionPane.INFORMATION_MESSAGE
-    );
+    null,
+    sb.toString()
+);
 }
    public void mostrarMatrizAdyacencia() {
 
@@ -260,12 +255,10 @@ public class Grafo {
 
     }
 
-    JOptionPane.showMessageDialog(
-            null,
-            sb.toString(),
-            "Matriz de Adyacencia",
-            JOptionPane.INFORMATION_MESSAGE
-    );
+   JOptionPane.showMessageDialog(
+    null,
+    sb.toString()
+);
 }
 
 
@@ -319,10 +312,8 @@ public class Grafo {
     }
 
     JOptionPane.showMessageDialog(
-        null,
-        sb.toString(),
-        "Matriz de Incidencia",
-        JOptionPane.INFORMATION_MESSAGE
+    null,
+    sb.toString()
 );
 }
 
