@@ -1,10 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package grafos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Queue;
+import java.util.LinkedList;
 import javax.swing.JOptionPane;
 
 public class Grafo {
@@ -323,16 +323,153 @@ public class Grafo {
 
     public void dfs() {
 
-        System.out.println("DFS pendiente por implementar.");
+    if (vertices.isEmpty()) {
 
+        JOptionPane.showMessageDialog(
+                null,
+                "No hay vertices."
+        );
+
+        return;
     }
 
+    String nombre = JOptionPane.showInputDialog(
+            null,
+            "Vertice inicial:"
+    );
+
+    Nodo inicio = buscarVertice(nombre);
+
+    if (inicio == null) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Vertice no encontrado."
+        );
+
+        return;
+    }
+
+    boolean[] visitado = new boolean[vertices.size()];
+
+    StringBuilder recorrido = new StringBuilder();
+
+    dfsRecursivo(
+            vertices.indexOf(inicio),
+            visitado,
+            recorrido
+    );
+
+    JOptionPane.showMessageDialog(
+            null,
+            recorrido.toString(),
+            "DFS",
+            JOptionPane.INFORMATION_MESSAGE
+    );
+}
     public void bfs() {
 
-        System.out.println("BFS pendiente por implementar.");
+    if (vertices.isEmpty()) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "No hay vertices."
+        );
+
+        return;
+    }
+
+    String nombre = JOptionPane.showInputDialog(
+            null,
+            "Vertice inicial:"
+    );
+
+    Nodo inicio = buscarVertice(nombre);
+
+    if (inicio == null) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Vertice no encontrado."
+        );
+
+        return;
+    }
+
+    boolean[] visitado =
+            new boolean[vertices.size()];
+
+    Queue<Integer> cola =
+            new LinkedList<>();
+
+    StringBuilder recorrido =
+            new StringBuilder();
+
+    int indice =
+            vertices.indexOf(inicio);
+
+    visitado[indice] = true;
+
+    cola.add(indice);
+
+    while (!cola.isEmpty()) {
+
+        int actual = cola.poll();
+
+        recorrido.append(
+                vertices.get(actual).getDato()
+        ).append(" -> ");
+
+        for (int i = 0; i < vertices.size(); i++) {
+
+            if (matrizAdyacencia[actual][i] != 0
+                    && !visitado[i]) {
+
+                visitado[i] = true;
+
+                cola.add(i);
+
+            }
+
+        }
 
     }
 
+    JOptionPane.showMessageDialog(
+            null,
+            recorrido.toString(),
+            "BFS",
+            JOptionPane.INFORMATION_MESSAGE
+    );
+}
+
+    private void dfsRecursivo(
+        int actual,
+        boolean[] visitado,
+        StringBuilder recorrido) {
+
+    visitado[actual] = true;
+
+    recorrido.append(
+            vertices.get(actual).getDato()
+    ).append(" -> ");
+
+    for (int i = 0; i < vertices.size(); i++) {
+
+        if (matrizAdyacencia[actual][i] != 0
+                && !visitado[i]) {
+
+            dfsRecursivo(
+                    i,
+                    visitado,
+                    recorrido
+            );
+
+        }
+
+    }
+
+}
     
     public void eliminarVertice() {
 
