@@ -53,104 +53,97 @@ public class Grafo {
 
     public void agregarVertice() {
 
-    String nombre = JOptionPane.showInputDialog(
-            "Nombre del vertice:"
+    String entrada = JOptionPane.showInputDialog(
+            "Ingrese los vértices separados por guion (-):"
     );
 
-    if (nombre == null || nombre.trim().isEmpty()) {
+    if (entrada == null || entrada.trim().isEmpty()) {
         return;
     }
 
-    if (buscarVertice(nombre) != null) {
+    String[] nombres = entrada.split("-");
 
-        JOptionPane.showMessageDialog(
-                null,
-                "El vertice ya existe."
-        );
-        return;
+    int agregados = 0;
 
+    for (String nombre : nombres) {
+
+        nombre = nombre.trim();
+
+        if (nombre.isEmpty()) {
+            continue;
+        }
+
+        if (buscarVertice(nombre) == null) {
+            vertices.add(new Nodo(nombre));
+            agregados++;
+        }
     }
-
-    vertices.add(new Nodo(nombre));
 
     JOptionPane.showMessageDialog(
             null,
-            "Vertice agregado."
+            agregados + " vértice(s) agregado(s)."
     );
-
 }
     public void agregarArista() {
 
-    String linea = JOptionPane.showInputDialog(
+    String entrada = JOptionPane.showInputDialog(
             null,
-            "Formato: A-B-10"
+            "Formato: A-B-5,B-C-3,C-D-2"
     );
 
-    if (linea == null || linea.trim().isEmpty()) {
+    if (entrada == null || entrada.trim().isEmpty()) {
         return;
     }
 
-    String[] datos = linea.split("-");
+    String[] aristasIngresadas = entrada.split(",");
 
-    if (datos.length != 3) {
+    int agregadas = 0;
 
-        JOptionPane.showMessageDialog(
-                null,
-                "Formato incorrecto."
-        );
+    for (String linea : aristasIngresadas) {
 
-        return;
-    }
+        String[] datos = linea.trim().split("-");
 
-    String origen = datos[0];
-    String destino = datos[1];
+        if (datos.length != 3) {
+            continue;
+        }
 
-    int peso;
+        String origen = datos[0].trim();
+        String destino = datos[1].trim();
 
-    try {
+        int peso;
 
-        peso = Integer.parseInt(datos[2]);
+        try {
+            peso = Integer.parseInt(datos[2].trim());
+        } catch (NumberFormatException e) {
+            continue;
+        }
 
-    } catch (NumberFormatException e) {
+        Nodo n1 = buscarVertice(origen);
+        Nodo n2 = buscarVertice(destino);
 
-        JOptionPane.showMessageDialog(
-                null,
-                "Peso invalido."
-        );
+        if (n1 == null || n2 == null) {
+            continue;
+        }
 
-        return;
-    }
+        aristas.add(new Arista(n1, n2, peso));
 
-    Nodo n1 = buscarVertice(origen);
-    Nodo n2 = buscarVertice(destino);
+        int i = vertices.indexOf(n1);
+        int j = vertices.indexOf(n2);
 
-    if (n1 == null || n2 == null) {
+        matrizAdyacencia[i][j] = peso;
 
-        JOptionPane.showMessageDialog(
-                null,
-                "Alguno de los vertices no existe."
-        );
+        if (!dirigido) {
+            matrizAdyacencia[j][i] = peso;
+        }
 
-        return;
-    }
-
-    aristas.add(new Arista(n1, n2, peso));
-
-    int i = vertices.indexOf(n1);
-    int j = vertices.indexOf(n2);
-
-    matrizAdyacencia[i][j] = peso;
-
-    if (!dirigido) {
-        matrizAdyacencia[j][i] = peso;
+        agregadas++;
     }
 
     JOptionPane.showMessageDialog(
             null,
-            "Arista agregada."
+            agregadas + " arista(s) agregada(s)."
     );
 }
-
     public void mostrarVertices() {
 
     if (vertices.isEmpty()) {
@@ -205,9 +198,7 @@ public class Grafo {
             if (matrizAdyacencia[i][j] != 0) {
 
                 sb.append(vertices.get(j).getDato())
-                  .append("(")
-                  .append(matrizAdyacencia[i][j])
-                  .append(") ");
+                  .append(" ");
 
             }
 
@@ -224,8 +215,7 @@ public class Grafo {
             JOptionPane.INFORMATION_MESSAGE
     );
 }
-
-    public void mostrarMatrizAdyacencia() {
+   public void mostrarMatrizAdyacencia() {
 
     if (vertices.isEmpty()) {
 
@@ -251,12 +241,13 @@ public class Grafo {
 
     for (int i = 0; i < vertices.size(); i++) {
 
-        sb.append(String.format("%4s", vertices.get(i).getDato()));
+        sb.append(String.format("%4s",
+                vertices.get(i).getDato()));
 
         for (int j = 0; j < vertices.size(); j++) {
 
             sb.append(String.format("%5d",
-                    matrizAdyacencia[i][j]));
+                    matrizAdyacencia[i][j] != 0 ? 1 : 0));
 
         }
 
@@ -271,6 +262,8 @@ public class Grafo {
             JOptionPane.INFORMATION_MESSAGE
     );
 }
+
+
 
     public void mostrarMatrizIncidencia() {
 
@@ -290,7 +283,7 @@ public class Grafo {
 
     for (int i = 0; i < aristas.size(); i++) {
 
-        sb.append(String.format("E%-4d", i + 1));
+        sb.append(String.format("A%-4d", i + 1));
 
     }
 
@@ -340,12 +333,7 @@ public class Grafo {
 
     }
 
-    public void caminoMinimo() {
-
-        System.out.println("Camino minimo pendiente por implementar.");
-
-    }
-
+    
     public void eliminarVertice() {
 
     String nombre = JOptionPane.showInputDialog(
@@ -406,4 +394,138 @@ public class Grafo {
 
 }
 
-}
+
+public void caminoMinimo() {
+
+    String origenNombre = JOptionPane.showInputDialog(
+            "Vertice origen:");
+
+    String destinoNombre = JOptionPane.showInputDialog(
+            "Vertice destino:");
+
+    Nodo origen = buscarVertice(origenNombre);
+    Nodo destino = buscarVertice(destinoNombre);
+
+    if (origen == null || destino == null) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Alguno de los vertices no existe."
+        );
+
+        return;
+    }
+
+    int n = vertices.size();
+
+    int inicio = vertices.indexOf(origen);
+    int fin = vertices.indexOf(destino);
+
+    int[] distancia = new int[n];
+    boolean[] visitado = new boolean[n];
+    int[] anterior = new int[n];
+
+    for (int i = 0; i < n; i++) {
+
+        distancia[i] = Integer.MAX_VALUE;
+        anterior[i] = -1;
+
+    }
+
+    distancia[inicio] = 0;
+
+    for (int k = 0; k < n; k++) {
+
+        int u = -1;
+        int min = Integer.MAX_VALUE;
+
+        for (int i = 0; i < n; i++) {
+
+            if (!visitado[i]
+                    && distancia[i] < min) {
+
+                min = distancia[i];
+                u = i;
+
+            }
+
+        }
+
+        if (u == -1) {
+            break;
+        }
+
+        visitado[u] = true;
+
+        for (int v = 0; v < n; v++) {
+
+            if (matrizAdyacencia[u][v] > 0
+                    && !visitado[v]) {
+
+                int nuevaDistancia =
+                        distancia[u]
+                        + matrizAdyacencia[u][v];
+
+                if (nuevaDistancia
+                        < distancia[v]) {
+
+                    distancia[v] =
+                            nuevaDistancia;
+
+                    anterior[v] = u;
+
+                }
+
+            }
+
+        }
+
+    }
+
+    if (distancia[fin] == Integer.MAX_VALUE) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "No existe camino."
+        );
+
+        return;
+    }
+
+    ArrayList<String> camino =
+            new ArrayList<>();
+
+    for (int v = fin;
+            v != -1;
+            v = anterior[v]) {
+
+        camino.add(0,
+                vertices.get(v).getDato());
+
+    }
+
+    StringBuilder sb =
+            new StringBuilder();
+
+    sb.append("Camino minimo:\n\n");
+
+    for (int i = 0;
+            i < camino.size();
+            i++) {
+
+        sb.append(camino.get(i));
+
+        if (i < camino.size() - 1) {
+            sb.append(" -> ");
+        }
+
+    }
+
+    sb.append("\n\nPeso total: ")
+      .append(distancia[fin]);
+
+    JOptionPane.showMessageDialog(
+            null,
+            sb.toString()
+    );
+}}

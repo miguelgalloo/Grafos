@@ -167,7 +167,7 @@ public class Ventanagrafo extends JFrame {
                         }
 
                         if (!grafo.isDirigido()
-                                && j <= i) {
+                                && j < i) {
                             continue;
                         }
 
@@ -209,75 +209,111 @@ public class Ventanagrafo extends JFrame {
         }
 
         private void dibujarArista(
-                Graphics2D g2d,
-                int x1,
-                int y1,
-                int x2,
-                int y2,
-                int peso,
-                boolean dirigida) {
+        Graphics2D g2d,
+        int x1,
+        int y1,
+        int x2,
+        int y2,
+        int peso,
+        boolean dirigida) {
 
-            int dx = x2 - x1;
-            int dy = y2 - y1;
+    int dx = x2 - x1;
+    int dy = y2 - y1;
 
-            double distancia =
-                    Math.hypot(dx, dy);
+    double distancia =
+            Math.hypot(dx, dy);
 
-            if (distancia == 0) {
-                return;
-            }
+    // BUCLE
+    if (distancia == 0) {
 
-            double inicioX =
-                    x1 + (RADIO_VERTICE * dx)
-                    / distancia;
+        g2d.setColor(new Color(80, 80, 80));
 
-            double inicioY =
-                    y1 + (RADIO_VERTICE * dy)
-                    / distancia;
+        g2d.drawArc(
+                x1 - 20,
+                y1 - 55,
+                40,
+                40,
+                0,
+                360);
 
-            double finX =
-                    x2 - (RADIO_VERTICE * dx)
-                    / distancia;
+        g2d.setColor(Color.RED);
 
-            double finY =
-                    y2 - (RADIO_VERTICE * dy)
-                    / distancia;
+        g2d.drawString(
+                String.valueOf(peso),
+                x1 + 25,
+                y1 - 35);
 
-            g2d.setColor(
-                    new Color(80, 80, 80));
+        if (dirigida) {
 
-            g2d.drawLine(
-                    (int) inicioX,
-                    (int) inicioY,
-                    (int) finX,
-                    (int) finY);
+            Path2D.Double flecha =
+                    new Path2D.Double();
 
-            int medioX = ((int) inicioX + (int) finX) / 2;
-            int medioY = ((int) inicioY + (int) finY) / 2;
+            flecha.moveTo(x1 + 15, y1 - 20);
+            flecha.lineTo(x1 + 5, y1 - 25);
+            flecha.lineTo(x1 + 10, y1 - 10);
 
-            g2d.setColor(Color.RED);
-
-            g2d.drawString(
-                    String.valueOf(peso),
-                    medioX,
-                    medioY
-            );
+            flecha.closePath();
 
             g2d.setColor(
                     new Color(80, 80, 80));
 
-            if (dirigida) {
-
-                dibujarFlecha(
-                        g2d,
-                        inicioX,
-                        inicioY,
-                        finX,
-                        finY);
-
-            }
-
+            g2d.fill(flecha);
         }
+
+        return;
+    }
+
+    double inicioX =
+            x1 + (RADIO_VERTICE * dx)
+            / distancia;
+
+    double inicioY =
+            y1 + (RADIO_VERTICE * dy)
+            / distancia;
+
+    double finX =
+            x2 - (RADIO_VERTICE * dx)
+            / distancia;
+
+    double finY =
+            y2 - (RADIO_VERTICE * dy)
+            / distancia;
+
+    g2d.setColor(
+            new Color(80, 80, 80));
+
+    g2d.drawLine(
+            (int) inicioX,
+            (int) inicioY,
+            (int) finX,
+            (int) finY);
+
+    int medioX =
+            ((int) inicioX + (int) finX) / 2;
+
+    int medioY =
+            ((int) inicioY + (int) finY) / 2;
+
+    g2d.setColor(Color.RED);
+
+    g2d.drawString(
+            String.valueOf(peso),
+            medioX,
+            medioY);
+
+    g2d.setColor(
+            new Color(80, 80, 80));
+
+    if (dirigida) {
+
+        dibujarFlecha(
+                g2d,
+                inicioX,
+                inicioY,
+                finX,
+                finY);
+    }
+}
 
         private void dibujarFlecha(
                 Graphics2D g2d,

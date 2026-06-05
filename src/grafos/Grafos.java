@@ -21,7 +21,7 @@ public class Grafos {
             String entrada = JOptionPane.showInputDialog(
                     null,
                     "MENU GRAFOS\n\n"
-                    + "1. Agregar vertice\n"
+                    + "1. Agregar vertices\n"
                     + "2. Agregar arista\n"
                     + "3. Mostrar vertices\n"
                     + "4. Mostrar lista de adyacencia\n"
@@ -31,7 +31,7 @@ public class Grafos {
                     + "8. BFS\n"
                     + "9. Camino minimo\n"
                     + "10. Eliminar vertice\n"
-                    + "11. Abrir ventana Swing\n"
+                    + "11. Mostrar Grafo\n"
                     + "0. Salir\n\n"
                     + "Ingrese una opcion:"
             );
