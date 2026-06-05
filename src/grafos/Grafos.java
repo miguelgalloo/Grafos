@@ -3,8 +3,10 @@ package grafos;
 
 /**
  *
- * @author G A L L O メ
+ * @author G A L L O メ - C A S T R O メ - GEPETTO
  */
+
+
 
 import javax.swing.JOptionPane;
 

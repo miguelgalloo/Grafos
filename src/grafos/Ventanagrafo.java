@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package grafos;
 
 /**
  *
- * @author G A L L O メ
+ * @author G A L L O メ - C A S T R O メ - GEPETTO
  */
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -236,10 +233,32 @@ public class Ventanagrafo extends JFrame {
                 0,
                 360);
 
+        String texto =
+                String.valueOf(peso);
+
+        g2d.setFont(
+                g2d.getFont().deriveFont(
+                        java.awt.Font.BOLD,
+                        16f));
+
+        FontMetrics fm =
+                g2d.getFontMetrics();
+
+        int ancho =
+                fm.stringWidth(texto);
+
+        g2d.setColor(Color.WHITE);
+
+        g2d.fillRect(
+                x1 + 22,
+                y1 - 50,
+                ancho + 8,
+                20);
+
         g2d.setColor(Color.RED);
 
         g2d.drawString(
-                String.valueOf(peso),
+                texto,
                 x1 + 25,
                 y1 - 35);
 
@@ -294,11 +313,38 @@ public class Ventanagrafo extends JFrame {
     int medioY =
             ((int) inicioY + (int) finY) / 2;
 
+    String texto =
+            String.valueOf(peso);
+
+    g2d.setFont(
+            g2d.getFont().deriveFont(
+                    java.awt.Font.BOLD,
+                    16f));
+
+    FontMetrics fm =
+            g2d.getFontMetrics();
+
+    int ancho =
+            fm.stringWidth(texto);
+
+    int alto =
+            fm.getHeight();
+
+    // Fondo blanco
+    g2d.setColor(Color.WHITE);
+
+    g2d.fillRect(
+            medioX - ancho / 2 - 4,
+            medioY - alto + 4,
+            ancho + 8,
+            alto);
+
+    // Texto rojo
     g2d.setColor(Color.RED);
 
     g2d.drawString(
-            String.valueOf(peso),
-            medioX,
+            texto,
+            medioX - ancho / 2,
             medioY);
 
     g2d.setColor(

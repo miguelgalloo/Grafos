@@ -1,6 +1,11 @@
 
 package grafos;
 
+/**
+ *
+ * @author G A L L O メ - C A S T R O メ - GEPETTO
+ */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Queue;
